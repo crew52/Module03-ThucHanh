@@ -67,17 +67,7 @@ public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                RentalSpace rentalSpace = new RentalSpace(
-                        resultSet.getString("SpaceID"),
-                        Status.valueOf(resultSet.getString("Status").toUpperCase()),
-                        resultSet.getDouble("Area"),
-                        resultSet.getInt("Floor"),
-                        SpaceType.valueOf(resultSet.getString("SpaceType").toUpperCase()),
-                        resultSet.getLong("Price"),
-                        resultSet.getDate("StartDate").toLocalDate(),
-                        resultSet.getDate("EndDate").toLocalDate()
-                );
-                rentalSpaces.add(rentalSpace);
+                rentalSpaces.add(mapResultSetToRentalSpace(resultSet));
             }
 
         } catch (SQLException e) {
@@ -123,22 +113,25 @@ public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                RentalSpace space = new RentalSpace(
-                        rs.getString("SpaceID"),
-                        Status.valueOf(rs.getString("Status").toUpperCase()),
-                        rs.getDouble("Area"),
-                        rs.getInt("Floor"),
-                        SpaceType.valueOf(rs.getString("SpaceType").toUpperCase()),
-                        rs.getLong("Price"),
-                        rs.getDate("StartDate").toLocalDate(),
-                        rs.getDate("EndDate").toLocalDate()
-                );
-                spaces.add(space);
+                spaces.add(mapResultSetToRentalSpace(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return spaces;
+    }
+
+    private RentalSpace mapResultSetToRentalSpace(ResultSet rs) throws SQLException {
+        return new RentalSpace(
+                rs.getString("SpaceID"),
+                Status.valueOf(rs.getString("Status").toUpperCase()),
+                rs.getDouble("Area"),
+                rs.getInt("Floor"),
+                SpaceType.valueOf(rs.getString("SpaceType").toUpperCase()),
+                rs.getLong("Price"),
+                rs.getDate("StartDate").toLocalDate(),
+                rs.getDate("EndDate").toLocalDate()
+        );
     }
 
 }
