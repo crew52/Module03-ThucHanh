@@ -50,7 +50,7 @@
 
 <h2>Thêm mặt bằng cho thuê</h2>
 
-<form action="rentalspace" method="post">
+<form action="/rental_space?action=create" method="post">
     <input type="hidden" name="action" value="create">
 
     <label for="spaceID">Mã mặt bằng:</label>

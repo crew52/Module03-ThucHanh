@@ -23,7 +23,25 @@ public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
 
     @Override
     public void addRentalSpace(RentalSpace rentalSpace) {
+        String sql = "INSERT INTO RentalSpace (SpaceID, Status, Area, Floor, SpaceType, Price, StartDate, EndDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, rentalSpace.getSpaceID());
+            stmt.setString(2, rentalSpace.getStatus().name());
+            stmt.setDouble(3, rentalSpace.getArea());
+            stmt.setInt(4, rentalSpace.getFloor());
+            stmt.setString(5, rentalSpace.getSpaceType().name());
+            stmt.setLong(6, rentalSpace.getPrice());
+            stmt.setDate(7, java.sql.Date.valueOf(rentalSpace.getStartDate()));
+            stmt.setDate(8, java.sql.Date.valueOf(rentalSpace.getEndDate()));
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Debug lỗi
+            throw new RuntimeException("Lỗi khi thêm RentalSpace", e);
+        }
     }
 
     @Override
