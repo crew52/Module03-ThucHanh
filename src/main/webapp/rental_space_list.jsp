@@ -36,10 +36,43 @@
 </head>
 <body>
 <div class="container">
+  <!-- Form tìm kiếm -->
+
   <h2>Danh sách mặt bằng cho thuê</h2>
   <a href="rental_space?action=create">
     <button class="btn btn-add">Thêm Mới</button>
   </a>
+  <br>
+
+  <form action="rental_space" method="get">
+    <input type="hidden" name="action" value="search">
+
+    <!-- Loại mặt bằng -->
+    <label for="spaceType">Loại mặt bằng:</label>
+    <select id="spaceType" name="spaceType">
+      <option value="">-- Chọn loại --</option>
+      <option value="PRIVATE" ${param.spaceType == 'PRIVATE' ? 'selected' : ''}>PRIVATE</option>
+      <option value="SHARED" ${param.spaceType == 'SHARED' ? 'selected' : ''}>SHARED</option>
+    </select>
+
+    <!-- Tầng -->
+    <label for="floor">Tầng:</label>
+    <select id="floor" name="floor">
+      <option value="">-- Chọn tầng --</option>
+      <c:forEach var="i" begin="1" end="15">
+        <option value="${i}" ${param.floor == i ? 'selected' : ''}>${i}</option>
+      </c:forEach>
+    </select>
+
+    <!-- Giá thuê -->
+    <label for="minPrice">Giá thuê từ:</label>
+    <input type="number" id="minPrice" name="minPrice" value="${param.minPrice}" placeholder="VNĐ">
+
+    <label for="maxPrice">Đến:</label>
+    <input type="number" id="maxPrice" name="maxPrice" value="${param.maxPrice}" placeholder="VNĐ">
+
+    <button type="submit">Tìm kiếm</button>
+  </form>
 
   <table>
     <thead>
