@@ -14,6 +14,7 @@ import java.util.List;
 
 public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
     private static final String SELECT_ALL_QUERY = "SELECT * FROM RentalSpace";
+    private static final String DELETE_RENTAL_SPACE_SQL = "DELETE FROM RentalSpace WHERE spaceID = ?";
 
     private final Connection connection;
 
@@ -46,6 +47,15 @@ public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
 
     @Override
     public boolean deleteRentalSpace(String spaceID) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RENTAL_SPACE_SQL)) {
+
+            preparedStatement.setString(1, spaceID);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

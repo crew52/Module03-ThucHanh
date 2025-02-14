@@ -27,6 +27,9 @@ public class RentalSpaceServlet extends HttpServlet {
             case "create":
                 showFormAdd(req, resp);
                 break;
+            case "delete":
+                deleteRentalSpace(req, resp);
+                break;
             default:
                 showAll(req, resp);
                 break;
@@ -76,5 +79,13 @@ public class RentalSpaceServlet extends HttpServlet {
         req.getRequestDispatcher("addRentalSpace.jsp").forward(req, resp);
     }
 
+    private void deleteRentalSpace(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String spaceID = req.getParameter("id");
 
+        if (rentalSpaceDAO.deleteRentalSpace(spaceID)) {
+            resp.sendRedirect("/rental_space");
+        } else {
+            resp.sendRedirect("error.jsp");
+        }
+    }
 }

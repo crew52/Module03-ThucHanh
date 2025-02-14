@@ -66,11 +66,8 @@
         <td>${space.startDate}</td>
         <td>${space.endDate}</td>
         <td>
-          <!-- Nút Xóa -->
-          <form action="deleteRentalSpace" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')">
-            <input type="hidden" name="spaceID" value="${space.spaceID}">
-            <button type="submit" class="btn btn-delete">Xóa</button>
-          </form>
+          <a href="rental_space?action=delete&id=${space.spaceID}" class="action-btn delete"
+             onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Delete</a>
         </td>
       </tr>
     </c:forEach>
