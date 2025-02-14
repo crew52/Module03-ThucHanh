@@ -51,8 +51,9 @@
     <label for="spaceType">Loại mặt bằng:</label>
     <select id="spaceType" name="spaceType">
       <option value="">-- Chọn loại --</option>
-      <option value="PRIVATE" ${param.spaceType == 'PRIVATE' ? 'selected' : ''}>PRIVATE</option>
-      <option value="SHARED" ${param.spaceType == 'SHARED' ? 'selected' : ''}>SHARED</option>
+      <option value="PRIVATE" ${selectedSpaceType == 'PRIVATE' ? 'selected' : ''}>PRIVATE</option>
+      <option value="SHARED" ${selectedSpaceType == 'SHARED' ? 'selected' : ''}>SHARED</option>
+
     </select>
 
     <!-- Tầng -->

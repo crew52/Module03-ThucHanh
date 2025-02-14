@@ -27,6 +27,9 @@ public class RentalSpaceServlet extends HttpServlet {
             case "create":
                 showFormAdd(req, resp);
                 break;
+            case "search":
+                handleSearch(req, resp);
+                break;
             case "delete":
                 deleteRentalSpace(req, resp);
                 break;
@@ -86,6 +89,34 @@ public class RentalSpaceServlet extends HttpServlet {
             resp.sendRedirect("/rental_space");
         } else {
             resp.sendRedirect("error.jsp");
+        }
+    }
+
+    private void handleSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String spaceTypeParam = request.getParameter("spaceType");
+        SpaceType spaceType = null;
+
+        if (spaceTypeParam != null && !spaceTypeParam.isEmpty()) {
+            try {
+                spaceType = SpaceType.valueOf(spaceTypeParam.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                spaceType = null;
+            }
+        }
+        Integer floor = parseInteger(request.getParameter("floor"));
+        Integer minPrice = parseInteger(request.getParameter("minPrice"));
+        Integer maxPrice = parseInteger(request.getParameter("maxPrice"));
+
+        List<RentalSpace> spaces = rentalSpaceDAO.searchRentalSpaces(spaceType, floor, minPrice, maxPrice);
+        request.setAttribute("rsList", spaces);
+        request.getRequestDispatcher("rental_space_list.jsp").forward(request, response);
+    }
+
+    private Integer parseInteger(String str) {
+        try {
+            return (str != null && !str.isEmpty()) ? Integer.parseInt(str) : null;
+        } catch (NumberFormatException e) {
+            return null;
         }
     }
 }

@@ -15,18 +15,6 @@ public interface IRentalSpaceDAO {
     // Lấy danh sách tất cả RentalSpace
     List<RentalSpace> getAllRentalSpaces();
 
-    // Sắp xếp theo diện tích tăng dần
-    List<RentalSpace> sortByAreaAscending();
+    List<RentalSpace> searchRentalSpaces(SpaceType spaceType, Integer floor, Integer minPrice, Integer maxPrice);
 
-    // Tìm kiếm theo loại mặt bằng
-    List<RentalSpace> searchBySpaceType(SpaceType spaceType);
-
-    // Tìm kiếm theo tầng
-    List<RentalSpace> searchByFloor(int floor);
-
-    // Tìm kiếm theo giá tiền (trả về danh sách các mặt bằng có giá trong khoảng)
-    List<RentalSpace> searchByPriceRange(long minPrice, long maxPrice);
-
-    // Tìm kiếm theo 3 điều kiện: loại mặt bằng, tầng, giá tiền
-    List<RentalSpace> searchByMultipleConditions(SpaceType spaceType, int floor, long maxPrice);
 }

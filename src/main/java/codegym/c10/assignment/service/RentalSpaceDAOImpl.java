@@ -88,32 +88,57 @@ public class RentalSpaceDAOImpl implements IRentalSpaceDAO {
     }
 
     @Override
-    public List<RentalSpace> sortByAreaAscending() {
-        List<RentalSpace> rentalSpaces = new ArrayList<>();
-        return rentalSpaces;
+    public List<RentalSpace> searchRentalSpaces(SpaceType spaceType, Integer floor, Integer minPrice, Integer maxPrice) {
+        List<RentalSpace> spaces = new ArrayList<>();
+        String query = "SELECT * FROM RentalSpace WHERE 1=1";
+
+        if (spaceType != null) {
+            query += " AND space_type = ?";
+        }
+        if (floor != null) {
+            query += " AND floor = ?";
+        }
+        if (minPrice != null) {
+            query += " AND price >= ?";
+        }
+        if (maxPrice != null) {
+            query += " AND price <= ?";
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            int index = 1;
+            if (spaceType != null) {
+                stmt.setString(index++, spaceType.name());
+            }
+            if (floor != null) {
+                stmt.setInt(index++, floor);
+            }
+            if (minPrice != null) {
+                stmt.setInt(index++, minPrice);
+            }
+            if (maxPrice != null) {
+                stmt.setInt(index++, maxPrice);
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                RentalSpace space = new RentalSpace(
+                        rs.getString("SpaceID"),
+                        Status.valueOf(rs.getString("Status").toUpperCase()),
+                        rs.getDouble("Area"),
+                        rs.getInt("Floor"),
+                        SpaceType.valueOf(rs.getString("SpaceType").toUpperCase()),
+                        rs.getLong("Price"),
+                        rs.getDate("StartDate").toLocalDate(),
+                        rs.getDate("EndDate").toLocalDate()
+                );
+                spaces.add(space);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return spaces;
     }
 
-    @Override
-    public List<RentalSpace> searchBySpaceType(SpaceType spaceType) {
-        List<RentalSpace> rentalSpaces = new ArrayList<>();
-        return rentalSpaces;
-    }
-
-    @Override
-    public List<RentalSpace> searchByFloor(int floor) {
-        List<RentalSpace> rentalSpaces = new ArrayList<>();
-        return rentalSpaces;
-    }
-
-    @Override
-    public List<RentalSpace> searchByPriceRange(long minPrice, long maxPrice) {
-        List<RentalSpace> rentalSpaces = new ArrayList<>();
-        return rentalSpaces;
-    }
-
-    @Override
-    public List<RentalSpace> searchByMultipleConditions(SpaceType spaceType, int floor, long maxPrice) {
-        List<RentalSpace> rentalSpaces = new ArrayList<>();
-        return rentalSpaces;
-    }
 }
