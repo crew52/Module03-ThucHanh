@@ -37,6 +37,10 @@
 <body>
 <div class="container">
   <h2>Danh sách mặt bằng cho thuê</h2>
+  <a href="rental_space?action=create">
+    <button class="btn btn-add">Thêm Mới</button>
+  </a>
+
   <table>
     <thead>
     <tr>
@@ -61,6 +65,13 @@
         <td>${space.price} VND</td>
         <td>${space.startDate}</td>
         <td>${space.endDate}</td>
+        <td>
+          <!-- Nút Xóa -->
+          <form action="deleteRentalSpace" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?')">
+            <input type="hidden" name="spaceID" value="${space.spaceID}">
+            <button type="submit" class="btn btn-delete">Xóa</button>
+          </form>
+        </td>
       </tr>
     </c:forEach>
     </tbody>
